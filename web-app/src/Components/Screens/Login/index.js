@@ -20,10 +20,10 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   signInButton: {
-    backgroundColor: 'tomato',
+    backgroundColor: '#262626',
     color: 'white',
     '&:hover': {
-      backgroundColor: 'darkred',
+      backgroundColor: '#262626',
     },
     width: '100%',
   },
