@@ -52,9 +52,7 @@ function Header() {
             </Button>
             </>
           : 
-          <Button className={classes.button} sto="/logout">
-                admin
-            </Button>
+          null
           }
         </Toolbar>
       </AppBar>
