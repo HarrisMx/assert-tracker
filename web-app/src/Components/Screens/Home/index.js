@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import Active from '../../Sections/Active';
+import AddItem from '../../Sections/Forms/AddItem';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,16 +60,16 @@ export default function Home() {
 
   return (
     <div className={classes.root}>
-      <Tabs value={value} onChange={handleChange} indicatorColor="#262626" aria-label="simple tabs example">
+      <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
         <Tab label="Active" {...a11yProps(0)} />
-        <Tab label="Checkin" {...a11yProps(1)} />
-        <Tab label="Checkout" {...a11yProps(2)} />
+        <Tab label="Check-in" {...a11yProps(1)} />
+        <Tab label="Check-out" {...a11yProps(2)} />
       </Tabs>
       <TabPanel classes={classes.tab} value={value} index={0}>
-        Active tab content goes here
+        <Active/>
       </TabPanel>
       <TabPanel classes={classes.tab} value={value} index={1}>
-        Checkin tab content goes here
+        <AddItem/>
       </TabPanel>
       <TabPanel classes={classes.tab} value={value} index={2}>
         Checkout tab content goes here
