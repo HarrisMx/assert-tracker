@@ -7,10 +7,10 @@ import Home from './Components/Screens/Home';
 
 function App() {
   return (
-    <div className="container">
-      <Header/>
-     <Home/>
-    </div>
+      <div className="container">
+        <Header/>
+        <Home/>
+      </div>
   );
 }
 

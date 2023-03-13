@@ -31,6 +31,8 @@ const useStyles = makeStyles((theme) => ({
 
 const AddItem = ({ open, onClose, onSubmit }) => {
   const classes = useStyles();
+  const [showDrawer, setShowDrawer] = React.useState(open);
+
   const [values, setValues] = React.useState({
     assetTag: '',
     modelType: '',
@@ -53,7 +55,7 @@ const AddItem = ({ open, onClose, onSubmit }) => {
   return (
     <Drawer
       anchor="left"
-      open={open}
+      open={showDrawer}
       onClose={onClose}
       classes={{ paper: classes.drawer }}
     >
@@ -130,7 +132,7 @@ const AddItem = ({ open, onClose, onSubmit }) => {
           className={classes.button}
           variant="contained"
           color="#ff0000"
-          type="submit"
+          onClick={()=>setShowDrawer(false)}
         >
           Cancel
         </Button>
