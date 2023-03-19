@@ -4,8 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Active from '../../Sections/Active';
-import AddItem from '../../Sections/Forms/AddItem';
-import { Alert } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
@@ -55,19 +53,14 @@ function a11yProps(index) {
 export default function Home() {
   const classes = useStyles();
   const [value, setValue] = useState(0);
-  const [addItem, setAddItem] = useState(false);
   const user = useSelector((state)=> state.user.user);
-  const appState = useSelector((state)=> state.app);
+  const appState = useSelector((state)=> state.app.appState);
   const dispatch = useDispatch();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
-  useEffect(() => {
-    console.log(user, appState);
-  }, 200);
-
+  
   return (
     <div className={classes.root}>
       <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
@@ -76,7 +69,7 @@ export default function Home() {
         <Tab label="Check-out" {...a11yProps(2)} />
       </Tabs>
       <TabPanel classes={classes.tab} value={value} index={0}>
-        <Active openAddItem={setAddItem}/>
+        <Active />
       </TabPanel>
       <TabPanel classes={classes.tab} value={value} index={1}>
         Checkin tab content goes here
@@ -84,7 +77,6 @@ export default function Home() {
       <TabPanel classes={classes.tab} value={value} index={2}>
         Checkout tab content goes here
       </TabPanel>
-      <AddItem open={addItem} onClose={false} onSubmit={()=>{<Alert severity="warning">This is a warning alert — check it out!</Alert>}}/>
     </div>
   );
 }

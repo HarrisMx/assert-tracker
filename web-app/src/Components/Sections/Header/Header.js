@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Header() {
     const classes = useStyles();
-    const [isLogged, setIsLogged] = useState(true);
+    const [isLogged, setIsLogged] = useState(false);
   return (
     <div className={classes.root}>
       <AppBar className={classes.appBar}>

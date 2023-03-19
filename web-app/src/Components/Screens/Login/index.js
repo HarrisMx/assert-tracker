@@ -20,10 +20,10 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   signInButton: {
-    backgroundColor: '#262626',
+    backgroundColor: '#303f9f',
     color: 'white',
     '&:hover': {
-      backgroundColor: '#262626',
+      backgroundColor: '#303f9f',
     },
     width: '100%',
   },
@@ -75,6 +75,7 @@ const LoginForm = () => {
           label="Remember Me"
         />
         <Button className={classes.signInButton} variant="contained">Sign In</Button>
+        <Button className={classes.signInButton} variant="contained">Sign Up</Button>
       </form>
     </div>
   );

@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddItem = ({ open, onSubmit }) => {
+const ViewItem = ({ open, onSubmit }) => {
   const classes = useStyles();
   const [showDrawer, setShowDrawer] = React.useState(open);
   const [_onClose, setOnClose] = useState(false);
@@ -136,7 +136,15 @@ const AddItem = ({ open, onSubmit }) => {
           color="primary"
           type="submit"
         >
-          Add Item
+          Update
+        </Button>
+
+        <Button
+          className={classes.button}
+          variant="contained"
+          color="danger"
+        >
+          Delete
         </Button>
 
         <Button
@@ -158,4 +166,4 @@ const AddItem = ({ open, onSubmit }) => {
   );
 };
 
-export default AddItem;
+export default ViewItem;

@@ -1,25 +1,68 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Button, ButtonGroup, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch, useSelector } from 'react-redux';
+import {toggleSideForm, setOpenedItemId} from '../../../redux/appState/appSlice';
+import AddItem from '../../Sections/Forms/AddItem';
+import { Alert } from '@mui/material';
+
+const useStyles = makeStyles((theme) => ({
+  button: {
+   backgroundColor:  '#303f9f',
+   color: '#ffffff'
+  }
+}));
 
 const Active = (props) => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const [addItem, setAddItem] = useState(false);
+  const openSideForm = useSelector((state)=> state.app.appState);
+  
   // Dummy data for the table
   const rows = [
-    { assetTag: 'A1', serialNumber: 'SN20221130-MJQS', modelType: 'Laptop', displayName: 'Dell XPS', assignedTo: 'John Doe', inStore: false, state: 'In use' },
-    { assetTag: 'A2', serialNumber: 'SN20221130-MJQS', modelType: 'Printer', displayName: 'HP OfficeJet', assignedTo: 'Jane Smith', inStore: true, state: 'Available' },
-    { assetTag: 'A3', serialNumber: 'SN20221130-MJQS', modelType: 'Phone', displayName: 'Samsung Galaxy', assignedTo: 'Bob Johnson', inStore: false, state: 'In use' },
+    { assetTag: 'A1', serialNumber: 'SN20221130-MJQS', modelType: 'Laptop', displayName: 'Dell XPS', assignedTo: 'John Doe', inStore: false, state: 'In use', action: 'Update/Delete' },
+    { assetTag: 'A2', serialNumber: 'SN20221130-MJQS', modelType: 'Printer', displayName: 'HP OfficeJet', assignedTo: 'Jane Smith', inStore: true, state: 'Available', action: 'Update/Delete' },
+    { assetTag: 'A3', serialNumber: 'SN20221130-MJQS', modelType: 'Phone', displayName: 'Samsung Galaxy', assignedTo: 'Bob Johnson', inStore: false, state: 'In use', action: 'Update/Delete' },
   ];
+
+  const handleClick = () => {
+    dispatch(toggleSideForm());
+  };
+
+  const setOpenItem = (itemId) => {
+    dispatch(setOpenedItemId(itemId));
+    console.log(openSideForm.openedItemId);
+  }
+
+  const handleExport = (type) => {
+    console.log(type);
+    switch (type) {
+      case 'csv':
+        
+        break;
+      case 'pdf':
+        
+        break;
+      case 'excel':
+        
+        break;
+      default:
+        break;
+    }
+  }
 
   return (
     <div>
         <div style={{marginTop: 30, justifyContent: 'center', alignItems: 'center' }}>
             <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '16px', width: '50%', float: 'left' }}>
-                <Button variant="contained" color="primary" onClick={props.openAddItem(true)}>Add Item</Button>
+                <Button variant="contained" onClick={handleClick} color="primary">Add Item</Button>
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '16px', width: '50%', float: 'right' }}>
                 <ButtonGroup variant="contained" color="primary" aria-label="export buttons">
-                <Button>PDF</Button>
-                <Button>EXCEL</Button>
-                <Button>CSV</Button>
+                <Button onClick={()=>handleExport('pdf')}>PDF</Button>
+                <Button onClick={()=>handleExport('excel')}>EXCEL</Button>
+                <Button onClick={()=>handleExport('csv')}>CSV</Button>
                 </ButtonGroup>
                 <TextField label="Search" variant="outlined" size="small" style={{marginLeft: 10}} />
             </div>
@@ -35,6 +78,7 @@ const Active = (props) => {
               <TableCell>Assigned To</TableCell>
               <TableCell>In Store</TableCell>
               <TableCell>State</TableCell>
+              <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -47,11 +91,31 @@ const Active = (props) => {
                 <TableCell>{row.assignedTo}</TableCell>
                 <TableCell>{row.inStore ? 'Yes' : 'No'}</TableCell>
                 <TableCell>{row.state}</TableCell>
+                <TableCell>
+                  <Button
+                      className={classes.button}
+                      variant="contained"
+                      color="primary"
+                      onClick={() => setOpenItem(row.assetTag)}
+                    >
+                      View
+                    </Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+      {openSideForm.openSideForm && (
+        <AddItem
+          open={true}
+          onSubmit={() => {
+            <Alert severity="warning">
+              This is a warning alert — check it out!
+            </Alert>;
+          }}
+        />
+      )}
     </div>
   );
 }
