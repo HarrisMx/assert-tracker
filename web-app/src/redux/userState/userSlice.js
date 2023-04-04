@@ -3,8 +3,8 @@ import { faker } from '@faker-js/faker';
 
 const initialState = {
     user: {
-        username: faker.name.fullName(),
-        token: faker.random.alphaNumeric(22) 
+        displayName: null,
+        token: null 
     },
   }
 

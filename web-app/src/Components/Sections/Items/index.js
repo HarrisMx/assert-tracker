@@ -3,7 +3,7 @@ import { Button, ButtonGroup, Table, TableBody, TableCell, TableContainer, Table
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import {toggleSideForm, setOpenedItemId} from '../../../redux/appState/appSlice';
-import AddItem from '../../Sections/Forms/AddItem';
+import AddItem from '../Forms/AddItem';
 import { Alert } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Active = (props) => {
+const Items = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [addItem, setAddItem] = useState(false);
@@ -120,4 +120,4 @@ const Active = (props) => {
   );
 }
 
-export default Active;
+export default Items;
