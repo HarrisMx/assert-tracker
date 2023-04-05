@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import Items from '../../Sections/Items';
+import Department from '../../Sections/Department';
+import Shelve from '../../Sections/Shelve';
+import { useSelector, useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,26 +55,33 @@ function a11yProps(index) {
 export default function Home() {
   const classes = useStyles();
   const [value, setValue] = useState(0);
+  const user = useSelector((state)=> state.user.user);
+  const appState = useSelector((state)=> state.app.appState);
+  const dispatch = useDispatch();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  
   return (
     <div className={classes.root}>
-      <Tabs value={value} onChange={handleChange} indicatorColor="#262626" aria-label="simple tabs example">
-        <Tab label="Active" {...a11yProps(0)} />
-        <Tab label="Checkin" {...a11yProps(1)} />
-        <Tab label="Checkout" {...a11yProps(2)} />
+      <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+        <Tab label="Items" {...a11yProps(0)} />
+        <Tab label="Item transfer" {...a11yProps(1)} />
+        <Tab label="Department" {...a11yProps(2)} />
+        <Tab label="Shelve" {...a11yProps(3)} />
       </Tabs>
       <TabPanel classes={classes.tab} value={value} index={0}>
-        Active tab content goes here
+        <Items />
       </TabPanel>
       <TabPanel classes={classes.tab} value={value} index={1}>
         Checkin tab content goes here
       </TabPanel>
       <TabPanel classes={classes.tab} value={value} index={2}>
-        Checkout tab content goes here
+        <Department/>
+      </TabPanel>
+      <TabPanel classes={classes.tab} value={value} index={3}>
+        <Shelve/>
       </TabPanel>
     </div>
   );
