@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import {toggleSideForm} from '../../../redux/appState/appSlice';
+import {toggleItemForm} from '../../../redux/appState/appSlice';
 import {
   Drawer,
   TextField,
@@ -36,8 +36,9 @@ const AddItem = ({ open, onSubmit }) => {
   const classes = useStyles();
   const [showDrawer, setShowDrawer] = React.useState(open);
   const [_onClose, setOnClose] = useState(false);
-  const openSideForm = useSelector((state)=> state.app.appState.openSideForm);
-  const [submitSuccess, setSubmitSuccess] = React.useState(false);
+  const addItemForm = useSelector((state)=> state.app.appState.addItemForm);
+  const baseURL = useSelector((state) => state.app.appState.baseURL);
+  const [showError, setshowError] = React.useState(false);
   const dispatch = useDispatch();
 
   const [values, setValues] = React.useState({
@@ -54,20 +55,24 @@ const AddItem = ({ open, onSubmit }) => {
   };
 
   const handleCancel = () =>{
-    dispatch(toggleSideForm());
+    dispatch(toggleItemForm());
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(values);
-    setSubmitSuccess(true);
+    setshowError(true);
+  };
+
+  const handleClose = () => {
+    dispatch(toggleItemForm());
   };
 
   return (
     <Drawer
       anchor="left"
-      open={openSideForm}
-      onClose={_onClose}
+      open={addItemForm}
+      onClose={handleClose}
       classes={{ paper: classes.drawer }}
     >
       <form className={classes.form} onSubmit={handleSubmit}>
@@ -148,8 +153,8 @@ const AddItem = ({ open, onSubmit }) => {
           Cancel
         </Button>
       </form>
-      {submitSuccess && (
-            <Alert severity="warning">
+      {showError && (
+            <Alert severity="error">
               This is a warning alert — check it out!
             </Alert>
       )}

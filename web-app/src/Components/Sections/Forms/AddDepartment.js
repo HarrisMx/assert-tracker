@@ -1,0 +1,124 @@
+import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch, useSelector } from 'react-redux';
+import {toggleDeptForm} from '../../../redux/appState/appSlice';
+import {
+  Drawer,
+  TextField,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Typography
+} from '@material-ui/core';
+import { Alert } from '@mui/material';
+
+const useStyles = makeStyles((theme) => ({
+  drawer: {
+    width: '40%',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    margin: '16px',
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  button: {
+    margin: '16px',
+  },
+}));
+
+const AddDepartment = ({ open, onSubmit }) => {
+  const classes = useStyles();
+  const [showDrawer, setShowDrawer] = React.useState(open);
+  const [_onClose, setOnClose] = useState(false);
+  const addDepartmentForm = useSelector((state)=> state.app.appState.addDepartmentForm);
+  const baseURL = useSelector((state) => state.app.appState.baseURL);
+  const [submitSuccess, setSubmitSuccess] = React.useState(false);
+  const dispatch = useDispatch();
+  const [error, setError] = useState('');
+
+  const [values, setValues] = React.useState({
+    deptName: '',
+    description: ''
+  });
+
+  const handleChange = (event) => {
+    setValues({ ...values, [event.target.name]: event.target.value });
+  };
+
+  const handleCancel = () =>{
+    dispatch(toggleDeptForm());
+  }
+
+  const handleClose = () =>{
+    dispatch(toggleDeptForm());
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(values);
+    setSubmitSuccess(true);
+  };
+
+  return (
+    <Drawer
+      anchor="left"
+      open={addDepartmentForm}
+      onClose={handleClose}
+      classes={{ paper: classes.drawer }}
+    >
+      <form className={classes.form} onSubmit={handleSubmit}>
+      <Typography variant="h4" align="center">
+        Add Department
+      </Typography>
+        <TextField
+          label="Department Name"
+          name="deptName"
+          value={values.deptName}
+          onChange={handleChange}
+          margin="normal"
+          required
+        />
+        <TextField
+          label="Description"
+          name="description"
+          value={values.description}
+          onChange={handleChange}
+          margin="normal"
+          required
+        />
+        <Button
+          className={classes.button}
+          variant="contained"
+          color="primary"
+          type="submit"
+          onClick={handleSubmit}
+        >
+          Add Department
+        </Button>
+
+        <Button
+          className={classes.button}
+          variant="contained"
+          color="#ff0000"
+          onClick={handleCancel}
+        >
+          Cancel
+        </Button>
+      </form>
+      {submitSuccess && (
+            <Alert severity="error">
+              {error}
+            </Alert>
+      )}
+    </Drawer>
+    
+  );
+};
+
+export default AddDepartment;

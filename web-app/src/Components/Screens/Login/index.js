@@ -55,6 +55,7 @@ const LoginForm = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [showError, setShowError] = useState(false);
   const dispatch = useDispatch();
+  const baseURL = useSelector((state) => state.app.appState.baseURL);
   const [error, setError] = useState('');
 
   const handleEmailChange = (event) => {
@@ -73,7 +74,7 @@ const LoginForm = () => {
     setShowError(false);
     console.log("Logging in");
         try {
-            const response = await axios.post('https://atracking.azurewebsites.net/api/Account/login', JSON.stringify({
+            const response = await axios.post(`${baseURL}/Account/login`, JSON.stringify({
               email: email,
               password: password
             }),
@@ -81,6 +82,7 @@ const LoginForm = () => {
                 'content-type': 'application/json'
             }});
             console.log(response.data);
+            localStorage.setItem('gentoken', `Bearer ${response.data.token}`);
             dispatch(setUser(response.data))
             return response.data;
         } catch (error) {

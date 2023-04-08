@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { Button, ButtonGroup, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import {toggleSideForm, setOpenedItemId} from '../../../redux/appState/appSlice';
+import {toggleItemForm, setOpenedItemId} from '../../../redux/appState/appSlice';
 import AddItem from '../Forms/AddItem';
 import { Alert } from '@mui/material';
 
@@ -17,7 +17,7 @@ const Items = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [addItem, setAddItem] = useState(false);
-  const openSideForm = useSelector((state)=> state.app.appState);
+  const addItemForm = useSelector((state)=> state.app.appState);
   
   // Dummy data for the table
   const rows = [
@@ -27,12 +27,12 @@ const Items = (props) => {
   ];
 
   const handleClick = () => {
-    dispatch(toggleSideForm());
+    dispatch(toggleItemForm());
   };
 
   const setOpenItem = (itemId) => {
     dispatch(setOpenedItemId(itemId));
-    console.log(openSideForm.openedItemId);
+    console.log(addItemForm.openedItemId);
   }
 
   const handleExport = (type) => {
@@ -106,7 +106,7 @@ const Items = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
-      {openSideForm.openSideForm && (
+      {addItemForm.addItemForm && (
         <AddItem
           open={true}
           onSubmit={() => {
