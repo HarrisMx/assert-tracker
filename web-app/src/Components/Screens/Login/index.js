@@ -82,7 +82,7 @@ const LoginForm = () => {
                 'content-type': 'application/json'
             }});
             console.log(response.data);
-            localStorage.setItem('gentoken', `Bearer ${response.data.token}`);
+            localStorage.setItem('jwt', response.data.token);
             dispatch(setUser(response.data))
             return response.data;
         } catch (error) {

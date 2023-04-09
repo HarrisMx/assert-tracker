@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import {toggleShelveForm} from '../../../redux/appState/appSlice';
+import { toggleShelveForm } from '../../../redux/appState/appSlice';
 import {
   Drawer,
   TextField,
@@ -37,7 +37,7 @@ const AddShelve = ({ open, onSubmit }) => {
   const classes = useStyles();
   const [showDrawer, setShowDrawer] = React.useState(open);
   const [_onClose, setOnClose] = useState(false);
-  const addShelveForm = useSelector((state)=> state.app.appState.addShelveForm);
+  const addShelveForm = useSelector((state) => state.app.appState.addShelveForm);
   const baseURL = useSelector((state) => state.app.appState.baseURL);
   const [submitSuccess, setSubmitSuccess] = React.useState(false);
   const dispatch = useDispatch();
@@ -46,44 +46,58 @@ const AddShelve = ({ open, onSubmit }) => {
 
   const [values, setValues] = React.useState({
     shelveTag: '',
-    description: ''
+    //description: ''
   });
 
   const handleChange = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
   };
 
-  const handleCancel = () =>{
+  const handleCancel = () => {
     dispatch(toggleShelveForm());
   }
+
+  const token = localStorage.getItem('jwt');
+
+  //console.log(`get token from storage ${token}`);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(values);
     setShowError(false);
+
     try {
+      // await axios({
+      //   method: 'POST',
+      //   url: `${baseURL}/ShelveTypes`,
+      //   data: { shelfTag : 'postSelve'},
+      //   headers: {'Authorization': `Bearer ${token}`}
+      // })
       const response = await axios.post(`${baseURL}/ShelveTypes`, JSON.stringify({
         shelfTag: values.shelveTag
       }),
-      {headers: {
-          'content-type': 'application/json'
-      }});
+        {
+          headers: {
+            'content-type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
       console.log(response.data);
       return response.data;
-  } catch (error) {
+    } catch (error) {
       console.error(error);
       setShowError(true);
       setError(error.message);
-  }
+    }
 
     setSubmitSuccess(true);
   };
 
-  const handleClose = () =>{
+  const handleClose = () => {
     dispatch(toggleShelveForm());
   }
 
-  useEffect(() =>{
+  useEffect(() => {
     console.log(addShelveForm);
   }, [])
 
@@ -96,9 +110,9 @@ const AddShelve = ({ open, onSubmit }) => {
       classes={{ paper: classes.drawer }}
     >
       <form className={classes.form} onSubmit={handleSubmit}>
-      <Typography variant="h4" align="center">
-        Add Shelve
-      </Typography>
+        <Typography variant="h4" align="center">
+          Add Shelve
+        </Typography>
         <TextField
           label="Shelve Tag"
           name="shelveTag"
@@ -107,15 +121,15 @@ const AddShelve = ({ open, onSubmit }) => {
           margin="normal"
           required
         />
-        <TextField
+        {/* <TextField
           label="Description"
           name="description"
           value={values.description}
           onChange={handleChange}
           margin="normal"
           required
-        />
-        
+        /> */}
+
         <Button
           className={classes.button}
           variant="contained"
@@ -135,12 +149,12 @@ const AddShelve = ({ open, onSubmit }) => {
         </Button>
       </form>
       {submitSuccess && (
-            <Alert severity="error">
-              {error}
-            </Alert>
+        <Alert severity="error">
+          {error}
+        </Alert>
       )}
     </Drawer>
-    
+
   );
 };
 
