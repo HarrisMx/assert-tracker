@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import {toggleSideForm} from '../../../redux/appState/appSlice';
+import {toggleItemForm} from '../../../redux/appState/appSlice';
 import {
   Drawer,
   TextField,
@@ -36,7 +36,7 @@ const ViewItem = ({ open, onSubmit }) => {
   const classes = useStyles();
   const [showDrawer, setShowDrawer] = React.useState(open);
   const [_onClose, setOnClose] = useState(false);
-  const openSideForm = useSelector((state)=> state.app.appState.openSideForm);
+  const addItemForm = useSelector((state)=> state.app.appState.addItemForm);
   const [submitSuccess, setSubmitSuccess] = React.useState(false);
   const dispatch = useDispatch();
 
@@ -54,7 +54,7 @@ const ViewItem = ({ open, onSubmit }) => {
   };
 
   const handleCancel = () =>{
-    dispatch(toggleSideForm());
+    dispatch(toggleItemForm());
   }
 
   const handleSubmit = (event) => {
@@ -66,7 +66,7 @@ const ViewItem = ({ open, onSubmit }) => {
   return (
     <Drawer
       anchor="left"
-      open={openSideForm}
+      open={addItemForm}
       onClose={_onClose}
       classes={{ paper: classes.drawer }}
     >

@@ -7,6 +7,8 @@ import Items from '../../Sections/Items';
 import Department from '../../Sections/Department';
 import Shelve from '../../Sections/Shelve';
 import { useSelector, useDispatch } from 'react-redux';
+import FormModal from '../../Sections/Forms/FormModal';
+import { TextField, Button, Grid, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,12 +57,29 @@ function a11yProps(index) {
 export default function Home() {
   const classes = useStyles();
   const [value, setValue] = useState(0);
+  const [shelveTag, setShelveTag] = useState("");
+  const [description, setDescription] = useState("");
+  const [showModal, setShowModal] = useState(false);
   const user = useSelector((state)=> state.user.user);
   const appState = useSelector((state)=> state.app.appState);
   const dispatch = useDispatch();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Shelve Tag: ", shelveTag);
+    console.log("Description: ", description);
+    setShelveTag("");
+    setDescription("");
+  };
+  
+  const handleCancel = (e) => {
+    e.preventDefault();
+    setShelveTag("");
+    setDescription("");
   };
   
   return (
@@ -83,6 +102,45 @@ export default function Home() {
       <TabPanel classes={classes.tab} value={value} index={3}>
         <Shelve/>
       </TabPanel>
+      <FormModal open={showModal}>
+      <Typography variant="h4" gutterBottom>
+        Add Shelve
+      </Typography>
+            <form onSubmit={handleSubmit}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="shelve-tag"
+                  label="Shelve Tag"
+                  value={shelveTag}
+                  onChange={(e) => setShelveTag(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="description"
+                  label="Description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Button variant="contained" color="primary" type="submit">
+                  Submit
+                </Button>
+              </Grid>
+              <Grid item xs={6}>
+                <Button variant="contained" onClick={handleCancel}>
+                  Cancel
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+      </FormModal>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { Button, ButtonGroup, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -8,8 +9,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch, useSelector } from 'react-redux';
-import {toggleSideForm, setOpenedItemId} from '../../../redux/appState/appSlice';
-import AddItem from '../Forms/AddItem';
+import {toggleDeptForm, setOpenedItemId} from '../../../redux/appState/appSlice';
+import AddDepartment from '../Forms/AddDepartment';
 import { Alert } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
@@ -17,7 +18,12 @@ const useStyles = makeStyles((theme) => ({
   button: {
    backgroundColor:  '#303f9f',
    color: '#ffffff'
-  }
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    margin: '16px',
+  },
 }));
 
 const Department = (props) => {
@@ -26,8 +32,13 @@ const Department = (props) => {
   const dispatch = useDispatch();
   const [addItem, setAddItem] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const openSideForm = useSelector((state)=> state.app.appState);
+  const addDepartmentForm = useSelector((state)=> state.app.appState);
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+  const [values, setValues] = React.useState({
+    deptName: '',
+    description: ''
+  });
   // Dummy data for the table
   const rows = [
     { assetTag: 'A1', serialNumber: 'SN20221130-MJQS', modelType: 'Laptop', displayName: 'Dell XPS', assignedTo: 'John Doe', inStore: false, state: 'In use', action: 'Update/Delete' },
@@ -36,7 +47,16 @@ const Department = (props) => {
   ];
 
   const handleClick = () => {
-    dispatch(toggleSideForm());
+    dispatch(toggleDeptForm());
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(values);
+  };
+
+  const handleChange = (event) => {
+    setValues({ ...values, [event.target.name]: event.target.value });
   };
 
   const handleOpenDialog = () => {
@@ -49,7 +69,7 @@ const Department = (props) => {
 
   const setOpenItem = (itemId) => {
     dispatch(setOpenedItemId(itemId));
-    console.log(openSideForm.openedItemId);
+    console.log(addDepartmentForm.openedItemId);
   }
 
   const handleExport = (type) => {
@@ -109,8 +129,8 @@ const Department = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
-      {openSideForm.openSideForm && (
-        <AddItem
+      {addDepartmentForm.addDepartmentForm && (
+        <AddDepartment
           open={true}
           onSubmit={() => {
             <Alert severity="warning">
@@ -119,31 +139,6 @@ const Department = (props) => {
           }}
         />
       )}
-
-
-<Dialog
-        fullScreen={fullScreen}
-        open={openDialog}
-        onClose={handleCloseDialog}
-        aria-labelledby="responsive-dialog-title"
-      >
-        <DialogTitle id="responsive-dialog-title">
-          {"Action Confirmation"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Delete Department?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleCloseDialog}>
-            Confirm
-          </Button>
-          <Button onClick={handleCloseDialog} autoFocus>
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
     </div>
   );
 }

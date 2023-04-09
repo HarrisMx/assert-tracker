@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import { Button, ButtonGroup, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import {toggleSideForm, setOpenedItemId} from '../../../redux/appState/appSlice';
-import AddItem from '../Forms/AddItem';
+import {toggleShelveForm, setOpenedItemId} from '../../../redux/appState/appSlice';
+import AddShelve from '../Forms/AddShelve';
 import { Alert } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
@@ -31,7 +31,8 @@ const Shelve = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [addItem, setAddItem] = useState(false);
-  const openSideForm = useSelector((state)=> state.app.appState);
+  const addItemForm = useSelector((state)=> state.app.appState);
+  const addShelveForm = useSelector((state)=>state.app.appState);
   
   // Dummy data for the table
   const rows = [
@@ -41,12 +42,11 @@ const Shelve = (props) => {
   ];
 
   const handleClick = () => {
-    dispatch(toggleSideForm());
+    dispatch(toggleShelveForm());
   };
 
   const setOpenItem = (itemId) => {
     dispatch(setOpenedItemId(itemId));
-    console.log(openSideForm.openedItemId);
   }
 
   const handleExport = (type) => {
@@ -106,8 +106,8 @@ const Shelve = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
-      {openSideForm.openSideForm && (
-        <AddItem
+      {addShelveForm.addShelveForm && (
+        <AddShelve
           open={true}
           onSubmit={() => {
             <Alert severity="warning">
