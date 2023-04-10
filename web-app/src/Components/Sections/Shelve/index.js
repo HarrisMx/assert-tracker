@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {toggleShelveForm, setOpenedItemId} from '../../../redux/appState/appSlice';
 import AddShelve from '../Forms/AddShelve';
 import { Alert } from '@mui/material';
+import { ThreeDots } from  'react-loader-spinner';
+import './styles.css';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -33,14 +35,8 @@ const Shelve = (props) => {
   const [addItem, setAddItem] = useState(false);
   const addItemForm = useSelector((state)=> state.app.appState);
   const addShelveForm = useSelector((state)=>state.app.appState);
+  const appData = addItemForm.appData;
   
-  // Dummy data for the table
-  const rows = [
-    { assetTag: 'A1', serialNumber: 'SN20221130-MJQS', modelType: 'Laptop', displayName: 'Dell XPS', assignedTo: 'John Doe', inStore: false, state: 'In use', action: 'Update/Delete' },
-    { assetTag: 'A2', serialNumber: 'SN20221130-MJQS', modelType: 'Printer', displayName: 'HP OfficeJet', assignedTo: 'Jane Smith', inStore: true, state: 'Available', action: 'Update/Delete' },
-    { assetTag: 'A3', serialNumber: 'SN20221130-MJQS', modelType: 'Phone', displayName: 'Samsung Galaxy', assignedTo: 'Bob Johnson', inStore: false, state: 'In use', action: 'Update/Delete' },
-  ];
-
   const handleClick = () => {
     dispatch(toggleShelveForm());
   };
@@ -86,15 +82,14 @@ const Shelve = (props) => {
           <TableHead>
             <TableRow>
               <TableCell>Shelve Tag</TableCell>
-              <TableCell>Description</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => (
-              <TableRow key={row.assetTag}>
-                <TableCell>{row.assetTag}</TableCell>
-                <TableCell>{row.serialNumber}</TableCell>
+            {appData ? appData.shelves.map((shelve) =>{
+                return(
+              <TableRow key={shelve.shelfId}>
+                <TableCell>{shelve.shelfTag}</TableCell>
                 <TableCell>
                     <ButtonGroup variant="contained" aria-label="action buttons">
                     <Button color="secondary">Delete</Button>
@@ -102,7 +97,18 @@ const Shelve = (props) => {
                     </ButtonGroup>
                 </TableCell>
               </TableRow>
-            ))}
+              )
+            }) : 
+            <ThreeDots 
+                height="80" 
+                width="80" 
+                radius="9"
+                color="#4fa94d" 
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName="loading-icon"
+                visible={true}
+            />}
           </TableBody>
         </Table>
       </TableContainer>

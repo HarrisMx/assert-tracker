@@ -5,12 +5,23 @@ import Header from './Components/Sections/Header/Header';
 import Home from './Components/Screens/Home';
 import { BrowserRouter as Router, Route, Switch, useHistory } from 'react-router-dom';
 import NotFound from './Components/Screens/NotFound';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setAppData } from './redux/appState/appSlice';
+import getAll from './Functions/Functions';
 
 function App() {
   const currPage = useSelector((state)=> state.app.appState.currentPage)
   let history = useHistory();
-  console.log(history);
+  const dispatch = useDispatch();
+  
+  React.useEffect(()=>{
+    const fetchData = async () => {
+      const data = await getAll();
+      dispatch(setAppData(data));
+    };
+    fetchData();
+  }, []);
+
   return (
       <div className="container">
         <Header/>

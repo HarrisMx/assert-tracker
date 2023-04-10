@@ -12,6 +12,7 @@ import {
   MenuItem,
   Typography
 } from '@material-ui/core';
+import CustomDatePicker from './DatePicker';
 import { Alert } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
@@ -40,6 +41,7 @@ const AddItem = ({ open, onSubmit }) => {
   const baseURL = useSelector((state) => state.app.appState.baseURL);
   const [showError, setshowError] = React.useState(false);
   const dispatch = useDispatch();
+  const appData = useSelector((state)=> state.app.appState.appData);
 
   const [values, setValues] = React.useState({
     assetTag: '',
@@ -80,59 +82,69 @@ const AddItem = ({ open, onSubmit }) => {
         Add Item
       </Typography>
         <TextField
-          label="Asset Tag"
-          name="assetTag"
+          label="Item Tag"
+          name="itemTag"
           value={values.assetTag}
           onChange={handleChange}
           margin="normal"
           required
         />
         <TextField
-          label="Model Type"
-          name="modelType"
+          label="Name "
+          name="itemName"
           value={values.modelType}
           onChange={handleChange}
           margin="normal"
           required
         />
         <TextField
-          label="Display Name"
-          name="displayName"
+          label="Item Description"
+          name="description"
           value={values.displayName}
           onChange={handleChange}
           margin="normal"
           required
         />
         <TextField
-          label="Assigned To"
-          name="assignedTo"
+          label="Serial Number"
+          name="serialno"
           value={values.assignedTo}
           onChange={handleChange}
           margin="normal"
           required
         />
+        <TextField
+          label="Cost"
+          name="cost"
+          value={values.assignedTo}
+          onChange={handleChange}
+          margin="normal"
+          required
+        />
+        <TextField
+          label="Quantity"
+          name="qty"
+          value={values.assignedTo}
+          onChange={handleChange}
+          margin="normal"
+          required
+        />
+        
         <FormControl className={classes.formControl} required>
-          <InputLabel>In Store</InputLabel>
-          <Select
-            name="inStore"
-            value={values.inStore}
-            onChange={handleChange}
-          >
-            <MenuItem value="Yes">Yes</MenuItem>
-            <MenuItem value="No">No</MenuItem>
-          </Select>
+          <CustomDatePicker label="Purchase Date" />
         </FormControl>
         <FormControl className={classes.formControl} required>
-          <InputLabel>State</InputLabel>
+          <InputLabel>Shelve</InputLabel>
           <Select
-            name="state"
+            name="shelve"
             value={values.state}
             onChange={handleChange}
           >
-            <MenuItem value="New">New</MenuItem>
-            <MenuItem value="Good">Good</MenuItem>
-            <MenuItem value="Fair">Fair</MenuItem>
-            <MenuItem value="Poor">Poor</MenuItem>
+            {appData && appData.shelves.map((shelve) =>{
+                return(
+                    <MenuItem key={shelve.shelfId} value="New">{shelve.shelfTag}</MenuItem>
+                )
+            })}
           </Select>
         </FormControl>
         <Button

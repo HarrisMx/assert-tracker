@@ -13,6 +13,8 @@ import {toggleDeptForm, setOpenedItemId} from '../../../redux/appState/appSlice'
 import AddDepartment from '../Forms/AddDepartment';
 import { Alert } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { ThreeDots } from  'react-loader-spinner';
+import './styles.css';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -34,17 +36,12 @@ const Department = (props) => {
   const [openDialog, setOpenDialog] = useState(false);
   const addDepartmentForm = useSelector((state)=> state.app.appState);
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const appData = addDepartmentForm.appData;
 
   const [values, setValues] = React.useState({
     deptName: '',
     description: ''
   });
-  // Dummy data for the table
-  const rows = [
-    { assetTag: 'A1', serialNumber: 'SN20221130-MJQS', modelType: 'Laptop', displayName: 'Dell XPS', assignedTo: 'John Doe', inStore: false, state: 'In use', action: 'Update/Delete' },
-    { assetTag: 'A2', serialNumber: 'SN20221130-MJQS', modelType: 'Printer', displayName: 'HP OfficeJet', assignedTo: 'Jane Smith', inStore: true, state: 'Available', action: 'Update/Delete' },
-    { assetTag: 'A3', serialNumber: 'SN20221130-MJQS', modelType: 'Phone', displayName: 'Samsung Galaxy', assignedTo: 'Bob Johnson', inStore: false, state: 'In use', action: 'Update/Delete' },
-  ];
 
   const handleClick = () => {
     dispatch(toggleDeptForm());
@@ -114,18 +111,31 @@ const Department = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => (
-              <TableRow key={row.assetTag}>
-                <TableCell>{row.assetTag}</TableCell>
-                <TableCell>{row.serialNumber}</TableCell>
-                <TableCell>
-                    <ButtonGroup variant="contained" aria-label="action buttons">
-                    <Button onClick={handleOpenDialog} color="secondary">Delete</Button>
-                    <Button color="primary">Edit</Button>
-                    </ButtonGroup>
-                </TableCell>
-              </TableRow>
-            ))}
+            {appData ? appData.departments.map((dept) =>{
+                return(
+                <TableRow key={dept.departmentId}>
+                    <TableCell>{dept.departmentName}</TableCell>
+                    <TableCell>{dept.description}</TableCell>
+                    <TableCell>
+                        <ButtonGroup variant="contained" aria-label="action buttons">
+                        <Button onClick={handleOpenDialog} color="secondary">Delete</Button>
+                        <Button color="primary">Edit</Button>
+                        </ButtonGroup>
+                    </TableCell>
+                </TableRow>
+                )
+                }) :
+            <ThreeDots 
+                height="80" 
+                width="80" 
+                radius="9"
+                color="#4fa94d" 
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName="loading-icon"
+                visible={true}
+            />
+        }
           </TableBody>
         </Table>
       </TableContainer>
