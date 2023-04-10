@@ -1,0 +1,221 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/mxolisi/Documents/Codes/ReactNative/assert-tracker/src/Application/Application.csproj": {}
+  },
+  "projects": {
+    "/Users/mxolisi/Documents/Codes/ReactNative/assert-tracker/src/Application/Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/mxolisi/Documents/Codes/ReactNative/assert-tracker/src/Application/Application.csproj",
+        "projectName": "Application",
+        "projectPath": "/Users/mxolisi/Documents/Codes/ReactNative/assert-tracker/src/Application/Application.csproj",
+        "packagesPath": "/Users/mxolisi/.nuget/packages/",
+        "outputPath": "/Users/mxolisi/Documents/Codes/ReactNative/assert-tracker/src/Application/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/mxolisi/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "/Users/mxolisi/Documents/Codes/ReactNative/assert-tracker/src/Domain/Domain.csproj": {
+                "projectPath": "/Users/mxolisi/Documents/Codes/ReactNative/assert-tracker/src/Domain/Domain.csproj"
+              },
+              "/Users/mxolisi/Documents/Codes/ReactNative/assert-tracker/src/Persistence/Persistence.csproj": {
+                "projectPath": "/Users/mxolisi/Documents/Codes/ReactNative/assert-tracker/src/Persistence/Persistence.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.0, )"
+            },
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[11.2.2, )"
+            },
+            "MediatR.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[11.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.201/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/mxolisi/Documents/Codes/ReactNative/assert-tracker/src/Domain/Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/mxolisi/Documents/Codes/ReactNative/assert-tracker/src/Domain/Domain.csproj",
+        "projectName": "Domain",
+        "projectPath": "/Users/mxolisi/Documents/Codes/ReactNative/assert-tracker/src/Domain/Domain.csproj",
+        "packagesPath": "/Users/mxolisi/.nuget/packages/",
+        "outputPath": "/Users/mxolisi/Documents/Codes/ReactNative/assert-tracker/src/Domain/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/mxolisi/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.Extensions.Identity.Stores": {
+              "target": "Package",
+              "version": "[7.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.201/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/mxolisi/Documents/Codes/ReactNative/assert-tracker/src/Persistence/Persistence.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/mxolisi/Documents/Codes/ReactNative/assert-tracker/src/Persistence/Persistence.csproj",
+        "projectName": "Persistence",
+        "projectPath": "/Users/mxolisi/Documents/Codes/ReactNative/assert-tracker/src/Persistence/Persistence.csproj",
+        "packagesPath": "/Users/mxolisi/.nuget/packages/",
+        "outputPath": "/Users/mxolisi/Documents/Codes/ReactNative/assert-tracker/src/Persistence/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/mxolisi/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "/Users/mxolisi/Documents/Codes/ReactNative/assert-tracker/src/Domain/Domain.csproj": {
+                "projectPath": "/Users/mxolisi/Documents/Codes/ReactNative/assert-tracker/src/Domain/Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[7.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.201/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

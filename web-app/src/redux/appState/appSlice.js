@@ -7,7 +7,8 @@ const initialState = {
         addShelveForm: false,
         viewItem: false,
         openedItemId: null,
-        baseURL: 'https://atracking.azurewebsites.net/api'
+        baseURL: 'https://atracking.azurewebsites.net/api',
+        currentPage: '/'
     },
   }
 
@@ -26,9 +27,12 @@ export const appSlice = createSlice({
         },
         setOpenedItemId: (state, action) => {
             state.appState.openedItemId = action.payload;
+        },
+        setCurrentPage: (state, action) => {
+            state.appState.currentPage = action.payload;
         }
     }
 });
 
-export const { toggleItemForm, setOpenedItemId, toggleDeptForm, toggleShelveForm }  = appSlice.actions;
+export const { toggleItemForm, setOpenedItemId, toggleDeptForm, toggleShelveForm , setCurrentPage}  = appSlice.actions;
 export default appSlice.reducer;

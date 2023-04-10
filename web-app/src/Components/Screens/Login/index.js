@@ -9,6 +9,8 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser } from '../../../redux/userState/userSlice';
 import Alert from '@mui/material/Alert';
+import { useHistory } from 'react-router-dom';
+import { setCurrentPage } from '../../../redux/appState/appSlice';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -57,6 +59,7 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const baseURL = useSelector((state) => state.app.appState.baseURL);
   const [error, setError] = useState('');
+  const history = useHistory();
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -83,8 +86,8 @@ const LoginForm = () => {
             }});
             console.log(response.data);
             localStorage.setItem('jwt', response.data.token);
-            dispatch(setUser(response.data))
-            return response.data;
+            dispatch(setUser(response.data));
+            history.push('/home');
         } catch (error) {
             console.error(error);
             setShowError(true);

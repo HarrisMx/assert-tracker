@@ -67,12 +67,6 @@ const AddShelve = ({ open, onSubmit }) => {
     setShowError(false);
 
     try {
-      // await axios({
-      //   method: 'POST',
-      //   url: `${baseURL}/ShelveTypes`,
-      //   data: { shelfTag : 'postSelve'},
-      //   headers: {'Authorization': `Bearer ${token}`}
-      // })
       const response = await axios.post(`${baseURL}/ShelveTypes`, JSON.stringify({
         shelfTag: values.shelveTag
       }),
@@ -83,6 +77,7 @@ const AddShelve = ({ open, onSubmit }) => {
           }
         });
       console.log(response.data);
+      dispatch(toggleShelveForm());
       return response.data;
     } catch (error) {
       console.error(error);
