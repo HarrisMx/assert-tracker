@@ -56,12 +56,11 @@ const AddShelve = ({ open, onSubmit }) => {
     dispatch(toggleShelveForm());
   }
 
-  const token = localStorage.getItem('jwt');
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(values);
     setShowError(false);
+    const token = localStorage.getItem('jwt');
 
     try {
       const response = await axios.post(`${baseURL}/ShelveTypes`, JSON.stringify({

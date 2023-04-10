@@ -13,6 +13,7 @@ import {
   Typography
 } from '@material-ui/core';
 import { Alert } from '@mui/material';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -41,6 +42,7 @@ const AddDepartment = ({ open, onSubmit }) => {
   const [submitSuccess, setSubmitSuccess] = React.useState(false);
   const dispatch = useDispatch();
   const [error, setError] = useState('');
+  const [showError, setShowError] = useState(false);
 
   const [values, setValues] = React.useState({
     deptName: '',
@@ -59,9 +61,31 @@ const AddDepartment = ({ open, onSubmit }) => {
     dispatch(toggleDeptForm());
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(values);
+    setShowError(false);
+    const token = localStorage.getItem('jwt');
+
+    try {
+      const response = await axios.post(`${baseURL}/Department`, JSON.stringify({
+        departmentName: values.deptName,
+        description: values.description
+      }),
+        {
+          headers: {
+            'content-type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+      console.log(response.data);
+      dispatch(toggleDeptForm());
+    } catch (error) {
+      console.error(error);
+      setShowError(true);
+      setError(error.message);
+    }
+
     setSubmitSuccess(true);
   };
 
