@@ -46,7 +46,6 @@ const AddShelve = ({ open, onSubmit }) => {
 
   const [values, setValues] = React.useState({
     shelveTag: '',
-    //description: ''
   });
 
   const handleChange = (event) => {
@@ -58,8 +57,6 @@ const AddShelve = ({ open, onSubmit }) => {
   }
 
   const token = localStorage.getItem('jwt');
-
-  //console.log(`get token from storage ${token}`);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -116,15 +113,6 @@ const AddShelve = ({ open, onSubmit }) => {
           margin="normal"
           required
         />
-        {/* <TextField
-          label="Description"
-          name="description"
-          value={values.description}
-          onChange={handleChange}
-          margin="normal"
-          required
-        /> */}
-
         <Button
           className={classes.button}
           variant="contained"
