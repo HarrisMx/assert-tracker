@@ -13,7 +13,7 @@ import {toggleDeptForm, setOpenedItemId} from '../../../redux/appState/appSlice'
 import AddDepartment from '../Forms/AddDepartment';
 import { Alert } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { ThreeDots } from  'react-loader-spinner';
+import { Blocks } from  'react-loader-spinner';
 import './styles.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -125,7 +125,7 @@ const Department = (props) => {
                 </TableRow>
                 )
                 }) :
-            <ThreeDots 
+            <Blocks 
                 height="80" 
                 width="80" 
                 radius="9"

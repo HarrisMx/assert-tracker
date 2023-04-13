@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {toggleItemForm, setOpenedItemId} from '../../../redux/appState/appSlice';
 import AddItem from '../Forms/AddItem';
 import { Alert } from '@mui/material';
-import { ThreeDots } from  'react-loader-spinner';
+import { Blocks } from  'react-loader-spinner';
 import './styles.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -102,7 +102,7 @@ const Items = (props) => {
               )
             }): 
             
-              <ThreeDots 
+              <Blocks 
                   height="80" 
                   width="80" 
                   radius="9"

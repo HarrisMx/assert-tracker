@@ -82,7 +82,7 @@ const AddShelve = ({ open, onSubmit }) => {
     }
 
     setSubmitSuccess(true);
-  };
+  }
 
   const handleClose = () => {
     dispatch(toggleShelveForm());

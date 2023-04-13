@@ -44,12 +44,15 @@ const AddItem = ({ open, onSubmit }) => {
   const appData = useSelector((state)=> state.app.appState.appData);
 
   const [values, setValues] = React.useState({
-    assetTag: '',
-    modelType: '',
-    displayName: '',
+    itemTag: '',
+    description: '',
+    itemName: '',
     assignedTo: '',
-    inStore: '',
-    state: '',
+    serialno: '',
+    shelve: '',
+    cost: '',
+    qty: '',
+
   });
 
   const handleChange = (event) => {
@@ -130,9 +133,9 @@ const AddItem = ({ open, onSubmit }) => {
           required
         />
         
-        <FormControl className={classes.formControl} required>
+        {/* <FormControl className={classes.formControl} required>
           <CustomDatePicker label="Purchase Date" />
-        </FormControl>
+        </FormControl> */}
         <FormControl className={classes.formControl} required>
           <InputLabel>Shelve</InputLabel>
           <Select
