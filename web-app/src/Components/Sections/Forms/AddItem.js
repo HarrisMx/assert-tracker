@@ -12,8 +12,12 @@ import {
   MenuItem,
   Typography
 } from '@material-ui/core';
-import CustomDatePicker from './DatePicker';
 import { Alert } from '@mui/material';
+import axios from 'axios';
+import { Blocks } from  'react-loader-spinner';
+import '../../Sections/Items/styles.css';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -31,19 +35,24 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: '16px',
   },
+  dateSelector:{
+    fontSize: '.9em',
+    padding: '0.5em',
+    margin: '0.5em'
+  }
 }));
 
 const AddItem = ({ open, onSubmit }) => {
   const classes = useStyles();
-  const [showDrawer, setShowDrawer] = React.useState(open);
-  const [_onClose, setOnClose] = useState(false);
   const addItemForm = useSelector((state)=> state.app.appState.addItemForm);
   const baseURL = useSelector((state) => state.app.appState.baseURL);
-  const [showError, setshowError] = React.useState(false);
+  const [showError, setShowError] = useState(false);
+  const [error, setError] = useState('');
+  const [showSpinner, setShwowSpinner] = useState(false);
   const dispatch = useDispatch();
   const appData = useSelector((state)=> state.app.appState.appData);
 
-  const [values, setValues] = React.useState({
+  const [values, setValues] = useState({
     itemTag: '',
     description: '',
     itemName: '',
@@ -52,21 +61,60 @@ const AddItem = ({ open, onSubmit }) => {
     shelve: '',
     cost: '',
     qty: '',
-
+    datePurchased: new Date()
   });
 
   const handleChange = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
   };
 
+  const handleDateChange = (date) => {
+    setValues({ ...values, datePurchased: date });
+  }
+
+  const handleShelveChange = (e) => {
+    console.log(e.target.value);
+    setValues({ ...values, shelve: e.target.value });
+  }
+
   const handleCancel = () =>{
     dispatch(toggleItemForm());
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
+    setShwowSpinner(true);
     event.preventDefault();
-    console.log(values);
-    setshowError(true);
+    try {
+      const token = localStorage.getItem('jwt');
+      let formdata = {
+        itemTag: values.itemName,
+        description: values.description,
+        name: values.itemName,
+        serialno: values.serialno,
+        shelve: values.shelve,
+        cost: values.cost,
+        datePurchased: values.datePurchased,
+        qty: values.qty,
+        timeStamp: new Date(),
+        "dueforRepair": true,
+      };
+      console.log(formdata);
+      // const response = await axios.post(`${baseURL}/ShelveTypes`, JSON.stringify(formdata),
+      //   {
+      //     headers: {
+      //       'content-type': 'application/json',
+      //       'Authorization': `Bearer ${token}`
+      //     }
+      //   });
+      // console.log(response.data);
+      // dispatch(toggleItemForm());
+      // setShwowSpinner(false);
+      // return response.data;
+    } catch (error) {
+      setError(error.message);
+      setShowError(true);
+      setShwowSpinner(false);
+    }
   };
 
   const handleClose = () => {
@@ -87,7 +135,7 @@ const AddItem = ({ open, onSubmit }) => {
         <TextField
           label="Item Tag"
           name="itemTag"
-          value={values.assetTag}
+          value={values.itemTag}
           onChange={handleChange}
           margin="normal"
           required
@@ -95,7 +143,7 @@ const AddItem = ({ open, onSubmit }) => {
         <TextField
           label="Name "
           name="itemName"
-          value={values.modelType}
+          value={values.itemName}
           onChange={handleChange}
           margin="normal"
           required
@@ -103,7 +151,7 @@ const AddItem = ({ open, onSubmit }) => {
         <TextField
           label="Item Description"
           name="description"
-          value={values.displayName}
+          value={values.description}
           onChange={handleChange}
           margin="normal"
           required
@@ -111,7 +159,7 @@ const AddItem = ({ open, onSubmit }) => {
         <TextField
           label="Serial Number"
           name="serialno"
-          value={values.assignedTo}
+          value={values.serialno}
           onChange={handleChange}
           margin="normal"
           required
@@ -119,7 +167,7 @@ const AddItem = ({ open, onSubmit }) => {
         <TextField
           label="Cost"
           name="cost"
-          value={values.assignedTo}
+          value={values.cost}
           onChange={handleChange}
           margin="normal"
           required
@@ -127,25 +175,24 @@ const AddItem = ({ open, onSubmit }) => {
         <TextField
           label="Quantity"
           name="qty"
-          value={values.assignedTo}
+          value={values.qty}
           onChange={handleChange}
           margin="normal"
           required
         />
-        
-        {/* <FormControl className={classes.formControl} required>
-          <CustomDatePicker label="Purchase Date" />
-        </FormControl> */}
+        <FormControl className={classes.formControl} required>
+          <DatePicker className={classes.dateSelector} name='datePurchased' selected={values.datePurchased} onChange={(date)=> handleDateChange(date)} />
+        </FormControl>
         <FormControl className={classes.formControl} required>
           <InputLabel>Shelve</InputLabel>
           <Select
             name="shelve"
-            value={values.state}
-            onChange={handleChange}
+            value={values.shelve}
+            onChange={(shelve) => handleShelveChange(shelve)}
           >
             {appData && appData.shelves.map((shelve) =>{
                 return(
-                    <MenuItem key={shelve.shelfId} value="New">{shelve.shelfTag}</MenuItem>
+                    <MenuItem key={shelve.shelfId} value={shelve.shelfId}>{shelve.shelfTag}</MenuItem>
                 )
             })}
           </Select>
@@ -170,8 +217,20 @@ const AddItem = ({ open, onSubmit }) => {
       </form>
       {showError && (
             <Alert severity="error">
-              This is a warning alert — check it out!
+              {error}
             </Alert>
+      )}
+      {showSpinner && (
+        <Blocks 
+        height="80" 
+        width="80" 
+        radius="9"
+        color="#4fa94d" 
+        ariaLabel="three-dots-loading"
+        wrapperStyle={{}}
+        wrapperClassName="loading-icon"
+        visible={true}
+        />
       )}
     </Drawer>
     
