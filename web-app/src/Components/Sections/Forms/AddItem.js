@@ -96,7 +96,7 @@ const AddItem = ({ open, onSubmit }) => {
         datePurchased: values.datePurchased,
         qty: values.qty,
         timeStamp: new Date(),
-        "dueforRepair": true,
+        dueforRepair : true,
       };
       console.log(formdata);
       // const response = await axios.post(`${baseURL}/ShelveTypes`, JSON.stringify(formdata),
