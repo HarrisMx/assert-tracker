@@ -84,6 +84,15 @@ const AddItem = ({ open, onSubmit }) => {
   const handleSubmit = async (event) => {
     setShwowSpinner(true);
     event.preventDefault();
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+    let timeStamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
     try {
       const token = localStorage.getItem('jwt');
       let formdata = {
@@ -93,24 +102,26 @@ const AddItem = ({ open, onSubmit }) => {
         serialno: values.serialno,
         shelve: values.shelve,
         cost: values.cost,
-        datePurchased: values.datePurchased,
+        datePurchased: timeStamp,
         qty: values.qty,
-        timeStamp: new Date(),
+        timeStamp: timeStamp,
         dueforRepair : true,
+        createdById: "Mxolisi"
       };
       console.log(formdata);
-      // const response = await axios.post(`${baseURL}/ShelveTypes`, JSON.stringify(formdata),
-      //   {
-      //     headers: {
-      //       'content-type': 'application/json',
-      //       'Authorization': `Bearer ${token}`
-      //     }
-      //   });
-      // console.log(response.data);
-      // dispatch(toggleItemForm());
-      // setShwowSpinner(false);
-      // return response.data;
+      const response = await axios.post(`${baseURL}/Items`, JSON.stringify(formdata),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+      console.log(response.data);
+      dispatch(toggleItemForm());
+      setShwowSpinner(false);
+      return response.data;
     } catch (error) {
+      console.log(error);
       setError(error.message);
       setShowError(true);
       setShwowSpinner(false);

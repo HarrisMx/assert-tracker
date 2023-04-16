@@ -6,6 +6,7 @@ import Tab from '@material-ui/core/Tab';
 import Items from '../../Sections/Items';
 import Department from '../../Sections/Department';
 import Shelve from '../../Sections/Shelve';
+import Assignment from '../../Sections/Assignments';
 import { useSelector, useDispatch } from 'react-redux';
 import FormModal from '../../Sections/Forms/FormModal';
 import { TextField, Button, Grid, Typography } from "@material-ui/core";
@@ -94,7 +95,7 @@ export default function Home() {
         <Items />
       </TabPanel>
       <TabPanel classes={classes.tab} value={value} index={1}>
-        Checkin tab content goes here
+        <Assignment/>
       </TabPanel>
       <TabPanel classes={classes.tab} value={value} index={2}>
         <Department/>

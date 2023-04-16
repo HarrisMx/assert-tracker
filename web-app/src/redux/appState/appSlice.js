@@ -5,6 +5,7 @@ const initialState = {
         addItemForm: false,
         addDepartmentForm: false,
         addShelveForm: false,
+        addAssignmentForm: false,
         viewItem: false,
         openedItemId: null,
         baseURL: 'https://atracking.azurewebsites.net/api',

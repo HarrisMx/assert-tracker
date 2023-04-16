@@ -94,13 +94,14 @@ import axios from 'axios';
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       }
-      const [items, departments, shelves] = await Promise.all([
+      const [items, departments, shelves, assignments] = await Promise.all([
         axios.get(`${baseURL}/Items`, {headers:headers}),
         axios.get(`${baseURL}/Department`, {headers:headers}),
         axios.get(`${baseURL}/ShelveTypes`, {headers:headers}),
+        axios.get(`${baseURL}/ItemEmployeeAssignment`, {headers:headers})
       ]);
 
-      return { items: items.data, departments: departments.data, shelves: shelves.data }
+      return { items: items.data, departments: departments.data, shelves: shelves.data, assignments: assignments.data }
     }
   
 export default getAll;
