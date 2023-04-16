@@ -110,23 +110,29 @@ const Assignment = (props) => {
                     <TableCell>Issued By</TableCell>
                     <TableCell>Received By</TableCell>
                     <TableCell>Item Name</TableCell>
+                    <TableCell>Is Returned</TableCell>
                     <TableCell>Action</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {appData ? appData.assignments.map((assignment) =>{
                             return(
-                            <TableRow key={assignment.itemId}>
-                                <TableCell>{assignment.dateTaken}</TableCell>
-                                <TableCell>{'Nkosana'}</TableCell>
-                                <TableCell>{'Mxolisi'}</TableCell>
-                                <TableCell>{assignment.item.name}</TableCell>
-                                <TableCell>
-                                    <ButtonGroup variant="contained" aria-label="action buttons">
-                                    <Button onClick={handleOpenDialog} color={'#009688'}>Mark as Returned</Button>
-                                    </ButtonGroup>
-                                </TableCell>
-                            </TableRow>
+                                <TableRow key={assignment.itemId}>
+                                    <TableCell>{assignment.dateTaken}</TableCell>
+                                    <TableCell>{'Nkosana'}</TableCell>
+                                    <TableCell>{'Mxolisi'}</TableCell>
+                                    <TableCell>{assignment.item.name}</TableCell>
+                                    <TableCell>
+                                    <Typography color={assignment.isReturned ? 'green' : 'tomato'} variant="body2">
+                                        {assignment.isReturned ? 'Yes' : 'No'}
+                                    </Typography>                 
+                                    </TableCell>
+                                    <TableCell>
+                                        <ButtonGroup variant="contained" aria-label="action buttons">
+                                        <Button onClick={handleOpenDialog} color={'#009688'}>Mark as Returned</Button>
+                                        </ButtonGroup>
+                                    </TableCell>
+                                </TableRow>
                             )
                             }) :
                         <Blocks 
