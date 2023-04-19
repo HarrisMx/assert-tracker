@@ -75,7 +75,6 @@ const LoginForm = () => {
 
   const handleLogin = async () => {
     setShowError(false);
-    console.log("Logging in");
         try {
             const response = await axios.post(`${baseURL}/Account/login`, JSON.stringify({
               email: email,
@@ -84,7 +83,6 @@ const LoginForm = () => {
             {headers: {
                 'content-type': 'application/json'
             }});
-            console.log(response.data);
             localStorage.setItem('jwt', response.data.token);
             dispatch(setUser(response.data));
             history.push('/home');

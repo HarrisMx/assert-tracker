@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleShelveForm } from '../../../redux/appState/appSlice';
@@ -6,10 +6,6 @@ import {
   Drawer,
   TextField,
   Button,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Typography
 } from '@material-ui/core';
 import { Alert } from '@mui/material';
@@ -35,8 +31,6 @@ const useStyles = makeStyles((theme) => ({
 
 const AddShelve = ({ open, onSubmit }) => {
   const classes = useStyles();
-  const [showDrawer, setShowDrawer] = React.useState(open);
-  const [_onClose, setOnClose] = useState(false);
   const addShelveForm = useSelector((state) => state.app.appState.addShelveForm);
   const baseURL = useSelector((state) => state.app.appState.baseURL);
   const [submitSuccess, setSubmitSuccess] = React.useState(false);
@@ -58,7 +52,6 @@ const AddShelve = ({ open, onSubmit }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(values);
     setShowError(false);
     const token = localStorage.getItem('jwt');
 
@@ -72,7 +65,6 @@ const AddShelve = ({ open, onSubmit }) => {
             'Authorization': `Bearer ${token}`
           }
         });
-      console.log(response.data);
       dispatch(toggleShelveForm());
       return response.data;
     } catch (error) {
@@ -87,11 +79,6 @@ const AddShelve = ({ open, onSubmit }) => {
   const handleClose = () => {
     dispatch(toggleShelveForm());
   }
-
-  useEffect(() => {
-    console.log(addShelveForm);
-  }, [])
-
 
   return (
     <Drawer

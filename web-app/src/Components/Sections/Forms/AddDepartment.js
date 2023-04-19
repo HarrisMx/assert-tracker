@@ -6,10 +6,6 @@ import {
   Drawer,
   TextField,
   Button,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Typography
 } from '@material-ui/core';
 import { Alert } from '@mui/material';
@@ -35,14 +31,12 @@ const useStyles = makeStyles((theme) => ({
 
 const AddDepartment = ({ open, onSubmit }) => {
   const classes = useStyles();
-  const [showDrawer, setShowDrawer] = React.useState(open);
   const [_onClose, setOnClose] = useState(false);
   const addDepartmentForm = useSelector((state)=> state.app.appState.addDepartmentForm);
   const baseURL = useSelector((state) => state.app.appState.baseURL);
   const [submitSuccess, setSubmitSuccess] = React.useState(false);
   const dispatch = useDispatch();
   const [error, setError] = useState('');
-  const [showError, setShowError] = useState(false);
 
   const [values, setValues] = React.useState({
     deptName: '',
@@ -63,7 +57,6 @@ const AddDepartment = ({ open, onSubmit }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(values);
     setShowError(false);
     const token = localStorage.getItem('jwt');
 
@@ -78,7 +71,6 @@ const AddDepartment = ({ open, onSubmit }) => {
             'Authorization': `Bearer ${token}`
           }
         });
-      console.log(response.data);
       dispatch(toggleDeptForm());
     } catch (error) {
       console.error(error);

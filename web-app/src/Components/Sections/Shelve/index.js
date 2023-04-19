@@ -29,7 +29,6 @@ const Shelve = (props) => {
   const [tableData, setTableData] = useState([]);
 
   const getData = async () => {
-    console.log(appData.shelves);
     setTableData(appData.shelves);
   }
 
@@ -62,8 +61,6 @@ const Shelve = (props) => {
             }, 1000);
           }),
           onRowUpdate: (newRow, oldRow) => new Promise((resolve, reject) => {
-            console.log(`newRow => ${newRow}`);
-            console.log(`oldRow => ${oldRow}`);
             const updatedData = [...tableData];
             updatedData[oldRow.tableData.id] = newRow;
             setTableData(updatedData);
@@ -73,7 +70,6 @@ const Shelve = (props) => {
             const updatedData = [...tableData];
             updatedData.splice(updatedData.indexOf(oldData), 1);
             setTableData(updatedData);
-            //console.log(`selectedRow => ${updatedData}`);
             setTimeout(() => resolve(), 1000);
           })
         }}

@@ -59,7 +59,6 @@ const ViewItem = ({ open, onSubmit }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(values);
     setSubmitSuccess(true);
   };
 

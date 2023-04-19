@@ -1,132 +1,114 @@
-import React, {useState} from 'react';
-import { Button, ButtonGroup, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch, useSelector } from 'react-redux';
-import {toggleItemForm, setOpenedItemId} from '../../../redux/appState/appSlice';
-import AddItem from '../Forms/AddItem';
-import { Alert } from '@mui/material';
-import { Blocks } from  'react-loader-spinner';
+import React, {useState, useEffect} from 'react';
+import { useSelector } from 'react-redux';
 import './styles.css';
-
-const useStyles = makeStyles((theme) => ({
-  button: {
-   backgroundColor:  '#303f9f',
-   color: '#ffffff'
-  }
-}));
+import MaterialTable from "@material-table/core";
+import { ExportCsv, ExportPdf } from "@material-table/exporters";
 
 const Items = (props) => {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const [addItem, setAddItem] = useState(false);
   const appState = useSelector((state)=> state.app.appState);
-  const openedItemId  = appState.openedItemId;
   const appData = appState.appData;
-  const addItemForm = appState.addItemForm;
+  const [tableData, setTableData] = useState([]);
 
-  console.log(appData);
-
-  const handleClick = () => {
-    dispatch(toggleItemForm());
-  };
-
-  const setOpenItem = (itemId) => {
-    console.log(itemId);
-    dispatch(setOpenedItemId(itemId));
-  }
-
-  const handleExport = (type) => {
-    console.log(type);
-    switch (type) {
-      case 'csv':
-        
-        break;
-      case 'pdf':
-        
-        break;
-      case 'excel':
-        
-        break;
-      default:
-        break;
+  const columns = [
+    {
+      title: "Asset Tag",
+      field: "itemTag",
+      validate: (row) => (row.itemTag || "").length < 5
+        ? "Asset Tag must have at least 3 chars"
+        : true,
+    },
+    {
+      title: "Serial Number",
+      field: "serialno",
+      validate: (row) => (row.serialno || "").length < 3
+        ? "Serial Number must have at least 3 chars"
+        : true,
+    },
+    {
+      title: "Name",
+      field: "name",
+      validate: (row) => (row.name || "").length < 3
+        ? "Nami must have at least 3 chars"
+        : true,
+    },
+    {
+      title: "Description",
+      field: "description",
+      validate: (row) => (row.description || "").length < 3
+        ? "Description must have at least 3 chars"
+        : true,
+    },
+    {
+      title: "Quantity",
+      field: "qty",
+      validate: (row) => Number.isInteger(row.qty)
+        ? "Quantity must be a number"
+        : true,
     }
+  ];
+
+  const getData = async () => {
+    setTableData(appData.items);
   }
+
+  useEffect(() => {
+    getData();
+  }, [])
 
   return (
-    <div>
-        <div style={{marginTop: 30, justifyContent: 'center', alignItems: 'center' }}>
-            <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '16px', width: '50%', float: 'left' }}>
-                <Button variant="contained" onClick={handleClick} color="primary">Add Item</Button>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '16px', width: '50%', float: 'right' }}>
-                <ButtonGroup variant="contained" color="primary" aria-label="export buttons">
-                <Button onClick={()=>handleExport('pdf')}>PDF</Button>
-                <Button onClick={()=>handleExport('excel')}>EXCEL</Button>
-                <Button onClick={()=>handleExport('csv')}>CSV</Button>
-                </ButtonGroup>
-                <TextField label="Search" variant="outlined" size="small" style={{marginLeft: 10}} />
-            </div>
-        </div>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Asset Tag</TableCell>
-              <TableCell>Serial Number</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Quantity</TableCell>
-              <TableCell>Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {appData ? appData.items.map((data) =>{
-              return(
-              <TableRow key={data.itemId}>
-                <TableCell>{data.itemTag}</TableCell>
-                <TableCell>{data.serialno}</TableCell>
-                <TableCell>{data.name}</TableCell>
-                <TableCell>{data.description}</TableCell>
-                <TableCell>{data.qty}</TableCell>
-                <TableCell>
-                  <Button
-                      className={classes.button}
-                      variant="contained"
-                      color="primary"
-                      onClick={() => setOpenItem(data.itemId)}
-                    >
-                      View
-                    </Button>
-                </TableCell>
-              </TableRow>
-              )
-            }): 
-            
-              <Blocks 
-                  height="80" 
-                  width="80" 
-                  radius="9"
-                  color="#4fa94d" 
-                  ariaLabel="three-dots-loading"
-                  wrapperStyle={{}}
-                  wrapperClassName="loading-icon"
-                  visible={true}
-                  />
+    <>
+        <MaterialTable
+        title="Items List"
+        data={appData? appData.items : []}
+        columns={columns}
+        editable={{
+          onRowAdd: (newRow) => new Promise((resolve, reject) => {
+            setTimeout(() => {
+              const data = [...tableData, newRow];
+              setTableData(data);
+              resolve();
+            }, 1000);
+          }),
+          onRowUpdate: (newRow, oldRow) => new Promise((resolve, reject) => {
+            const updatedData = [...tableData];
+            console.log(updatedData);
+            updatedData[oldRow.tableData.id] = newRow;
+            setTableData(updatedData);
+            setTimeout(() => resolve(), 1000);
+          }),
+          onRowDelete: (oldData) => new Promise((resolve) => {
+            const updatedData = [...tableData];
+            console.log(updatedData);
+            updatedData.splice(updatedData.indexOf(oldData), 1);
+            setTableData(updatedData);
+            setTimeout(() => resolve(), 1000);
+          })
+        }}
+        options={{
+          rowStyle: (data, index) => index % 2 === 0 ? { backgroundColor: "#f5f5f5" } : null,
+          headerStyle: {
+            backgroundColor: "#01579b",
+            color: "#FFF",
+          },
+          addRowPosition: "first",
+          actionsColumnIndex: -1,
+          columnsButton: true,
+          exportAllData: true,
+          exportMenu: [
+            {
+              label: "Export PDF",
+              exportFunc: (cols, datas) =>
+                ExportPdf(cols, datas, `Shelve List RunDate ${new Date().toLocaleDateString()}`),
+            },
+            {
+              label: "Export CSV",
+              exportFunc: (cols, datas) =>
+                ExportCsv(cols, datas, `Shelve List RunDate ${new Date().toLocaleDateString()}`),
             }
-          </TableBody>
-        </Table>
-      </TableContainer>
-      {addItemForm && (
-        <AddItem
-          open={true}
-          onSubmit={() => {
-            <Alert severity="warning">
-              This is a warning alert — check it out!
-            </Alert>;
-          }}
-        />
-      )}
-    </div>
+          ],
+        }}
+      />
+    </>
   );
 }
 

@@ -60,8 +60,6 @@ export default function Home() {
   const [shelveTag, setShelveTag] = useState("");
   const [description, setDescription] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const user = useSelector((state)=> state.user.user);
-  const appState = useSelector((state)=> state.app.appState);
   const dispatch = useDispatch();
 
   const handleChange = (event, newValue) => {
@@ -70,8 +68,6 @@ export default function Home() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Shelve Tag: ", shelveTag);
-    console.log("Description: ", description);
     setShelveTag("");
     setDescription("");
   };

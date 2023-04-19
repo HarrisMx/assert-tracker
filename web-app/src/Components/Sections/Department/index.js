@@ -26,14 +26,6 @@ const Department = (props) => {
     description: ''
   });
 
-  // const addData = newData => {
-  //   axios.post('/api/mydata', newData)
-  //     .then(res => {
-  //       setData([...data, res.data]);
-  //     })
-  //     .catch(err => console.log(err));
-  // };
-
   const [tableData, setTableData] = useState([])
   const columns = [
     {
@@ -65,7 +57,6 @@ const Department = (props) => {
       <MaterialTable
         title="Department List"
         data={tableData}
-        editable={true}
         columns={columns}
         editable={{
           onRowAdd: (newRow) => new Promise((resolve, reject) => {
@@ -76,8 +67,6 @@ const Department = (props) => {
             }, 1000);
           }),
           onRowUpdate: (newRow, oldRow) => new Promise((resolve, reject) => {
-            console.log(`newRow => ${newRow}`);
-            console.log(`oldRow => ${oldRow}`);
             const updatedData = [...tableData];
             updatedData[oldRow.tableData.id] = newRow;
             setTableData(updatedData);
@@ -87,12 +76,9 @@ const Department = (props) => {
             const updatedData = [...tableData];
             updatedData.splice(updatedData.indexOf(oldData), 1);
             setTableData(updatedData);
-            //console.log(`selectedRow => ${updatedData}`);
             setTimeout(() => resolve(), 1000);
           }),
           onRowAdd: (oldData) => new Promise((resolve, reject) => {
-            
-            console.log('Add');
             resolve();
           })
         }}

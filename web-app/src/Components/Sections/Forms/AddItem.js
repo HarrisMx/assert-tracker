@@ -12,7 +12,6 @@ import {
   MenuItem,
   Typography
 } from '@material-ui/core';
-import CustomDatePicker from './DatePicker';
 import { Alert } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
@@ -35,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
 
 const AddItem = ({ open, onSubmit }) => {
   const classes = useStyles();
-  const [showDrawer, setShowDrawer] = React.useState(open);
   const [_onClose, setOnClose] = useState(false);
   const addItemForm = useSelector((state)=> state.app.appState.addItemForm);
   const baseURL = useSelector((state) => state.app.appState.baseURL);
@@ -65,7 +63,6 @@ const AddItem = ({ open, onSubmit }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(values);
     setshowError(true);
   };
 
@@ -132,10 +129,6 @@ const AddItem = ({ open, onSubmit }) => {
           margin="normal"
           required
         />
-        
-        {/* <FormControl className={classes.formControl} required>
-          <CustomDatePicker label="Purchase Date" />
-        </FormControl> */}
         <FormControl className={classes.formControl} required>
           <InputLabel>Shelve</InputLabel>
           <Select
